@@ -1,6 +1,6 @@
 {
-  "name": "CodexMobile",
-  "displayName": "Codex Mobile",
+  "name": "SurvivalSkill",
+  "displayName": "SurvivalSkill",
   "version": "1.0.0",
-  "description": "Cross-platform mobile application for iOS and Android"
+  "description": "Offline-first survival skills app with 10 critical scenarios and spaced repetition learning"
 }

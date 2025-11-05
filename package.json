@@ -1,7 +1,7 @@
 {
-  "name": "codex-mobile-app",
+  "name": "survival-skill-app",
   "version": "1.0.0",
-  "description": "Cross-platform mobile app for iOS and Android",
+  "description": "Offline-first survival skills mobile app with scenario-based learning",
   "main": "index.js",
   "scripts": {
     "android": "react-native run-android",
@@ -12,7 +12,22 @@
   },
   "dependencies": {
     "react": "18.2.0",
-    "react-native": "0.73.2"
+    "react-native": "0.73.2",
+    "@react-navigation/native": "^6.1.9",
+    "@react-navigation/stack": "^6.3.20",
+    "@react-navigation/bottom-tabs": "^6.5.11",
+    "@reduxjs/toolkit": "^2.0.1",
+    "react-redux": "^9.0.4",
+    "redux-persist": "^6.0.0",
+    "@react-native-async-storage/async-storage": "^1.21.0",
+    "react-native-sqlite-storage": "^6.0.1",
+    "react-native-paper": "^5.11.6",
+    "react-native-vector-icons": "^10.0.3",
+    "react-native-gesture-handler": "^2.14.1",
+    "react-native-reanimated": "^3.6.1",
+    "react-native-safe-area-context": "^4.8.2",
+    "react-native-screens": "^3.29.0",
+    "date-fns": "^3.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

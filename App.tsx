@@ -1,188 +1,128 @@
-import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  useColorScheme,
-  TouchableOpacity,
-  Platform,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import 'react-native-gesture-handler';
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  const [count, setCount] = React.useState(0);
+import { store, persistor } from './src/redux/store';
+import { getDatabase, createTables } from './src/database/database';
+import { seedDatabase } from './src/data/survivalData';
+import AppNavigator from './src/navigation/AppNavigator';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? '#1a1a1a' : '#f5f5f5',
-    flex: 1,
+const App = () => {
+  const [isInitializing, setIsInitializing] = useState(true);
+  const [initError, setInitError] = useState<string | null>(null);
+
+  useEffect(() => {
+    initializeApp();
+  }, []);
+
+  const initializeApp = async () => {
+    try {
+      console.log('🚀 Initializing SurvivalSkill App...');
+
+      // Initialize database
+      await getDatabase();
+      console.log('✅ Database opened');
+
+      // Create tables
+      await createTables();
+      console.log('✅ Tables created');
+
+      // Seed data (only runs once, uses INSERT OR REPLACE)
+      await seedDatabase();
+      console.log('✅ Database seeded with survival data');
+
+      setIsInitializing(false);
+    } catch (error) {
+      console.error('❌ App initialization error:', error);
+      setInitError('Failed to initialize app. Please restart.');
+      setIsInitializing(false);
+    }
   };
 
-  const textColor = isDarkMode ? '#ffffff' : '#000000';
+  if (isInitializing) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.logo}>🔥</Text>
+        <Text style={styles.appName}>SurvivalSkill</Text>
+        <ActivityIndicator size="large" color="#2E7D32" style={styles.loader} />
+        <Text style={styles.loadingText}>Loading survival scenarios...</Text>
+      </View>
+    );
+  }
+
+  if (initError) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorIcon}>⚠️</Text>
+        <Text style={styles.errorTitle}>Initialization Error</Text>
+        <Text style={styles.errorText}>{initError}</Text>
+      </View>
+    );
+  }
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View style={styles.container}>
-          <Text style={[styles.title, {color: textColor}]}>
-            Welcome to Codex Mobile
-          </Text>
-
-          <View style={styles.platformBadge}>
-            <Text style={styles.platformText}>
-              Running on: {Platform.OS === 'ios' ? 'iOS' : 'Android'}
-            </Text>
-          </View>
-
-          <Text style={[styles.subtitle, {color: textColor}]}>
-            Cross-Platform Mobile App
-          </Text>
-
-          <View style={styles.counterContainer}>
-            <Text style={[styles.counterLabel, {color: textColor}]}>
-              Counter: {count}
-            </Text>
-
-            <View style={styles.buttonRow}>
-              <TouchableOpacity
-                style={[styles.button, styles.incrementButton]}
-                onPress={() => setCount(count + 1)}>
-                <Text style={styles.buttonText}>Increment</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[styles.button, styles.decrementButton]}
-                onPress={() => setCount(count - 1)}>
-                <Text style={styles.buttonText}>Decrement</Text>
-              </TouchableOpacity>
-            </View>
-
-            <TouchableOpacity
-              style={[styles.button, styles.resetButton]}
-              onPress={() => setCount(0)}>
-              <Text style={styles.buttonText}>Reset</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.infoBox}>
-            <Text style={[styles.infoTitle, {color: textColor}]}>
-              🚀 Features
-            </Text>
-            <Text style={[styles.infoText, {color: textColor}]}>
-              ✓ Cross-platform (iOS & Android)
-            </Text>
-            <Text style={[styles.infoText, {color: textColor}]}>
-              ✓ Dark mode support
-            </Text>
-            <Text style={[styles.infoText, {color: textColor}]}>
-              ✓ Modern React hooks
-            </Text>
-            <Text style={[styles.infoText, {color: textColor}]}>
-              ✓ TypeScript support
-            </Text>
-            <Text style={[styles.infoText, {color: textColor}]}>
-              ✓ Responsive design
-            </Text>
-          </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <Provider store={store}>
+      <PersistGate loading={<LoadingScreen />} persistor={persistor}>
+        <AppNavigator />
+      </PersistGate>
+    </Provider>
   );
-}
+};
+
+const LoadingScreen = () => (
+  <View style={styles.loadingContainer}>
+    <ActivityIndicator size="large" color="#2E7D32" />
+  </View>
+);
 
 const styles = StyleSheet.create({
-  container: {
+  loadingContainer: {
     flex: 1,
-    padding: 20,
-    alignItems: 'center',
     justifyContent: 'center',
-    minHeight: 600,
+    alignItems: 'center',
+    backgroundColor: '#F5F5F5',
   },
-  title: {
+  logo: {
+    fontSize: 80,
+    marginBottom: 20,
+  },
+  appName: {
     fontSize: 32,
     fontWeight: 'bold',
+    color: '#2E7D32',
     marginBottom: 10,
-    textAlign: 'center',
   },
-  subtitle: {
-    fontSize: 18,
-    marginBottom: 30,
-    textAlign: 'center',
-    opacity: 0.7,
+  loader: {
+    marginTop: 20,
   },
-  platformBadge: {
-    backgroundColor: '#007AFF',
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-    borderRadius: 20,
-    marginBottom: 20,
+  loadingText: {
+    fontSize: 16,
+    color: '#757575',
+    marginTop: 15,
   },
-  platformText: {
-    color: '#ffffff',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  counterContainer: {
-    alignItems: 'center',
-    marginVertical: 30,
-    width: '100%',
-  },
-  counterLabel: {
-    fontSize: 24,
-    fontWeight: '600',
-    marginBottom: 20,
-  },
-  buttonRow: {
-    flexDirection: 'row',
+  errorContainer: {
+    flex: 1,
     justifyContent: 'center',
-    gap: 10,
+    alignItems: 'center',
+    backgroundColor: '#F5F5F5',
+    padding: 40,
+  },
+  errorIcon: {
+    fontSize: 60,
+    marginBottom: 20,
+  },
+  errorTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#D32F2F',
     marginBottom: 10,
   },
-  button: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    minWidth: 120,
-    alignItems: 'center',
-  },
-  incrementButton: {
-    backgroundColor: '#34C759',
-  },
-  decrementButton: {
-    backgroundColor: '#FF3B30',
-  },
-  resetButton: {
-    backgroundColor: '#007AFF',
-  },
-  buttonText: {
-    color: '#ffffff',
+  errorText: {
     fontSize: 16,
-    fontWeight: '600',
-  },
-  infoBox: {
-    marginTop: 30,
-    padding: 20,
-    borderRadius: 12,
-    backgroundColor: 'rgba(0, 122, 255, 0.1)',
-    width: '100%',
-  },
-  infoTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 12,
-  },
-  infoText: {
-    fontSize: 16,
-    marginVertical: 4,
-    lineHeight: 24,
+    color: '#757575',
+    textAlign: 'center',
   },
 });
 
