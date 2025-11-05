@@ -1,5 +1,9 @@
-import { PrismaClient, NeurodivergentType, DifficultyLevel } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+
+// Type definitions (since SQLite doesn't support enums)
+type NeurodivergentType = 'ADHD' | 'AUTISM' | 'DYSLEXIA' | 'DYSCALCULIA' | 'DYSGRAPHIA' | 'MIXED' | 'OTHER';
+type DifficultyLevel = 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED';
 
 const prisma = new PrismaClient();
 
@@ -17,7 +21,7 @@ async function main() {
       role: 'STUDENT',
       profile: {
         create: {
-          neurodivergentType: NeurodivergentType.ADHD,
+          neurodivergentType: 'ADHD',
           age: 12,
           gradeLevel: '6th Grade',
           preferences: JSON.stringify({
@@ -43,7 +47,7 @@ async function main() {
       role: 'STUDENT',
       profile: {
         create: {
-          neurodivergentType: NeurodivergentType.AUTISM,
+          neurodivergentType: 'AUTISM',
           age: 10,
           gradeLevel: '4th Grade',
           preferences: JSON.stringify({
@@ -75,8 +79,8 @@ async function main() {
     {
       title: 'Focus Foundations',
       description: 'Learn techniques to improve focus and concentration through engaging activities',
-      neurodivergentType: NeurodivergentType.ADHD,
-      difficultyLevel: DifficultyLevel.BEGINNER,
+      neurodivergentType: 'ADHD',
+      difficultyLevel: 'BEGINNER',
       category: 'Focus & Attention',
       estimatedDuration: 15,
       pointsReward: 20,
@@ -121,8 +125,8 @@ async function main() {
     {
       title: 'Organization Station',
       description: 'Master organization skills with fun, interactive tools and strategies',
-      neurodivergentType: NeurodivergentType.ADHD,
-      difficultyLevel: DifficultyLevel.BEGINNER,
+      neurodivergentType: 'ADHD',
+      difficultyLevel: 'BEGINNER',
       category: 'Organization',
       estimatedDuration: 20,
       pointsReward: 25,
@@ -152,8 +156,8 @@ async function main() {
     {
       title: 'Time Management Magic',
       description: 'Develop time awareness and planning skills in an engaging way',
-      neurodivergentType: NeurodivergentType.ADHD,
-      difficultyLevel: DifficultyLevel.INTERMEDIATE,
+      neurodivergentType: 'ADHD',
+      difficultyLevel: 'INTERMEDIATE',
       category: 'Time Management',
       estimatedDuration: 25,
       pointsReward: 30,
@@ -183,8 +187,8 @@ async function main() {
     {
       title: 'Communication Confidence',
       description: 'Build social communication skills at your own pace',
-      neurodivergentType: NeurodivergentType.AUTISM,
-      difficultyLevel: DifficultyLevel.BEGINNER,
+      neurodivergentType: 'AUTISM',
+      difficultyLevel: 'BEGINNER',
       category: 'Social Skills',
       estimatedDuration: 20,
       pointsReward: 25,
@@ -214,8 +218,8 @@ async function main() {
     {
       title: 'Sensory Success',
       description: 'Understand and manage sensory experiences',
-      neurodivergentType: NeurodivergentType.AUTISM,
-      difficultyLevel: DifficultyLevel.BEGINNER,
+      neurodivergentType: 'AUTISM',
+      difficultyLevel: 'BEGINNER',
       category: 'Sensory Processing',
       estimatedDuration: 15,
       pointsReward: 20,
@@ -245,8 +249,8 @@ async function main() {
     {
       title: 'Reading Strategies Toolkit',
       description: 'Discover powerful reading strategies designed for dyslexic learners',
-      neurodivergentType: NeurodivergentType.DYSLEXIA,
-      difficultyLevel: DifficultyLevel.BEGINNER,
+      neurodivergentType: 'DYSLEXIA',
+      difficultyLevel: 'BEGINNER',
       category: 'Reading',
       estimatedDuration: 20,
       pointsReward: 25,

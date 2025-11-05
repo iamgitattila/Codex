@@ -9,34 +9,17 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-enum UserRole {
-  STUDENT
-  PARENT
-  ADMIN
-}
-
-enum NeurodivergentType {
-  ADHD
-  AUTISM
-  DYSLEXIA
-  DYSCALCULIA
-  DYSGRAPHIA
-  MIXED
-  OTHER
-}
-
-enum DifficultyLevel {
-  BEGINNER
-  INTERMEDIATE
-  ADVANCED
-}
+// Note: SQLite doesn't support enums, so we use String with validation in the app
+// Valid UserRole values: STUDENT, PARENT, ADMIN
+// Valid NeurodivergentType values: ADHD, AUTISM, DYSLEXIA, DYSCALCULIA, DYSGRAPHIA, MIXED, OTHER
+// Valid DifficultyLevel values: BEGINNER, INTERMEDIATE, ADVANCED
 
 model User {
   id            String   @id @default(cuid())
   email         String   @unique
   name          String
   password      String
-  role          UserRole @default(STUDENT)
+  role          String   @default("STUDENT")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -52,7 +35,7 @@ model Profile {
   userId                String              @unique
   user                  User                @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  neurodivergentType    NeurodivergentType
+  neurodivergentType    String
   age                   Int
   gradeLevel            String?
   preferences           String?             // JSON string for learning preferences
@@ -75,8 +58,8 @@ model LearningModule {
   id                    String              @id @default(cuid())
   title                 String
   description           String
-  neurodivergentType    NeurodivergentType
-  difficultyLevel       DifficultyLevel
+  neurodivergentType    String
+  difficultyLevel       String
   category              String
   estimatedDuration     Int                 // in minutes
   pointsReward          Int                 @default(10)

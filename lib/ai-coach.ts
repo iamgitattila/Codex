@@ -1,4 +1,4 @@
-import { NeurodivergentType } from '@prisma/client';
+import { NeurodivergentType } from '@/types/prisma-enums';
 
 interface CoachingContext {
   neurodivergentType: NeurodivergentType;
