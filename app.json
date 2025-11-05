@@ -1,0 +1,48 @@
+{
+  "expo": {
+    "name": "Morse Blinker",
+    "slug": "morse-blinker",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.preppercodex.morseblinker",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Camera access is required to use the LED flashlight for Morse code transmission.",
+        "NSMicrophoneUsageDescription": "Microphone permission is not actually used."
+      }
+    },
+    "android": {
+      "package": "com.preppercodex.morseblinker",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#000000"
+      },
+      "permissions": [
+        "CAMERA",
+        "FLASHLIGHT",
+        "VIBRATE"
+      ],
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Morse Blinker to access your camera to use the LED flash for signaling."
+        }
+      ]
+    ]
+  }
+}
