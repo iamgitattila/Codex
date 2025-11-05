@@ -1,0 +1,152 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+enum UserRole {
+  STUDENT
+  PARENT
+  ADMIN
+}
+
+enum NeurodivergentType {
+  ADHD
+  AUTISM
+  DYSLEXIA
+  DYSCALCULIA
+  DYSGRAPHIA
+  MIXED
+  OTHER
+}
+
+enum DifficultyLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String
+  password      String
+  role          UserRole @default(STUDENT)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  profile       Profile?
+  children      Profile[] @relation("ParentChildren")
+  progress      Progress[]
+  achievements  Achievement[]
+  sessions      LearningSession[]
+}
+
+model Profile {
+  id                    String              @id @default(cuid())
+  userId                String              @unique
+  user                  User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  neurodivergentType    NeurodivergentType
+  age                   Int
+  gradeLevel            String?
+  preferences           String?             // JSON string for learning preferences
+  strengths             String?             // JSON string
+  challenges            String?             // JSON string
+
+  parentId              String?
+  parent                User?               @relation("ParentChildren", fields: [parentId], references: [id])
+
+  totalPoints           Int                 @default(0)
+  level                 Int                 @default(1)
+  streak                Int                 @default(0)
+  lastActivityDate      DateTime?
+
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+}
+
+model LearningModule {
+  id                    String              @id @default(cuid())
+  title                 String
+  description           String
+  neurodivergentType    NeurodivergentType
+  difficultyLevel       DifficultyLevel
+  category              String
+  estimatedDuration     Int                 // in minutes
+  pointsReward          Int                 @default(10)
+
+  content               String              // JSON string with lesson content
+  activities            String              // JSON string with interactive activities
+
+  order                 Int                 @default(0)
+  isPublished           Boolean             @default(true)
+
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  progress              Progress[]
+  sessions              LearningSession[]
+}
+
+model Progress {
+  id                    String              @id @default(cuid())
+  userId                String
+  user                  User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  moduleId              String
+  module                LearningModule      @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  status                String              @default("NOT_STARTED") // NOT_STARTED, IN_PROGRESS, COMPLETED
+  progressPercentage    Int                 @default(0)
+  score                 Int?
+  attemptsCount         Int                 @default(0)
+  timeSpentMinutes      Int                 @default(0)
+
+  startedAt             DateTime?
+  completedAt           DateTime?
+  lastAccessedAt        DateTime            @default(now())
+
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  @@unique([userId, moduleId])
+}
+
+model Achievement {
+  id                    String              @id @default(cuid())
+  userId                String
+  user                  User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type                  String              // BADGE, MILESTONE, STREAK, etc.
+  title                 String
+  description           String
+  icon                  String
+  pointsAwarded         Int                 @default(0)
+
+  unlockedAt            DateTime            @default(now())
+}
+
+model LearningSession {
+  id                    String              @id @default(cuid())
+  userId                String
+  user                  User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  moduleId              String
+  module                LearningModule      @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  startTime             DateTime            @default(now())
+  endTime               DateTime?
+  durationMinutes       Int?
+
+  activitiesCompleted   Int                 @default(0)
+  pointsEarned          Int                 @default(0)
+
+  aiCoachingUsed        Boolean             @default(false)
+  coachingInteractions  String?             // JSON string with AI coaching interactions
+
+  createdAt             DateTime            @default(now())
+}
