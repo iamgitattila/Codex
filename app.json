@@ -1,0 +1,56 @@
+{
+  "expo": {
+    "name": "Fuel Tracker",
+    "slug": "fuel-tracker",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#2196F3"
+    },
+    "description": "Track fuel inventory, rotation, and expiration dates for jerry cans. Prevent generator failure from bad gas.",
+    "primaryColor": "#2196F3",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.preppercodex.fueltracker",
+      "infoPlist": {
+        "UIBackgroundModes": ["remote-notification"]
+      }
+    },
+    "android": {
+      "package": "com.preppercodex.fueltracker",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#2196F3"
+      },
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "NOTIFICATIONS",
+        "RECEIVE_BOOT_COMPLETED",
+        "VIBRATE"
+      ]
+    },
+    "notification": {
+      "icon": "./assets/notification-icon.png",
+      "color": "#2196F3",
+      "androidMode": "default",
+      "androidCollapsedTitle": "Fuel Tracker"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#2196F3"
+        }
+      ]
+    ]
+  }
+}
