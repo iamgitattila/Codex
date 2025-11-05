@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "Burrow: Digital Ledger",
+    "slug": "burrow-digital-ledger",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#2E7D32"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.preppercodex.burrow",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Burrow needs camera access to scan barcodes for quick inventory entry.",
+        "NSPhotoLibraryUsageDescription": "Burrow needs photo library access to attach photos to inventory items."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#2E7D32"
+      },
+      "package": "com.preppercodex.burrow",
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-barcode-scanner",
+        {
+          "cameraPermission": "Allow Burrow to scan barcodes for inventory items."
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Burrow to access camera for barcode scanning."
+        }
+      ]
+    ]
+  }
+}
