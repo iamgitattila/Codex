@@ -1,0 +1,131 @@
+{
+  "analysis_metadata": {
+    "total_books_analyzed": 160,
+    "clustering_method": "archetype_emotional_analysis",
+    "primary_dimensions": ["skill_focus", "threat_scenario", "emotional_driver", "demographic_target"]
+  },
+  "archetype_clusters": {
+    "wilderness_survivor": {
+      "archetype_name": "The Wilderness Survivor",
+      "emotional_core": "Independence, self-reliance, return to roots, mastery of nature",
+      "primary_fears": ["Being helpless in nature", "Dependency on modern systems", "Loss of ancestral skills"],
+      "primary_hopes": ["Total self-sufficiency", "Thriving off-grid", "Reconnection with primal skills"],
+      "book_ids": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+      "book_count": 20,
+      "key_themes": ["Bushcraft", "Primitive skills", "Hunting/foraging", "Navigation", "Fire craft", "Wilderness medicine"],
+      "psychological_profile": "Values ancestral knowledge, distrusts modern technology, seeks complete independence from society"
+    },
+    "digital_defender": {
+      "archetype_name": "The Digital Defender",
+      "emotional_core": "Privacy, autonomy, resistance to surveillance state, protecting identity",
+      "primary_fears": ["Government/corporate surveillance", "Identity theft", "Loss of privacy", "Digital totalitarianism"],
+      "primary_hopes": ["Complete anonymity", "Data sovereignty", "Freedom from tracking"],
+      "book_ids": [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40],
+      "book_count": 20,
+      "key_themes": ["Privacy tools", "Encryption", "Anonymity", "Cybersecurity", "Anti-surveillance", "Data protection"],
+      "psychological_profile": "Tech-savvy, paranoid about surveillance, values privacy above convenience, libertarian tendencies"
+    },
+    "environment_specialist": {
+      "archetype_name": "The Environment Specialist",
+      "emotional_core": "Adaptation, preparation for specific disasters, mastery of extreme conditions",
+      "primary_fears": ["Natural disasters in home region", "Climate extremes", "Being caught unprepared in hostile terrain"],
+      "primary_hopes": ["Surviving any environment", "Climate adaptation mastery", "Geographic mobility"],
+      "book_ids": [41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60],
+      "book_count": 20,
+      "key_themes": ["Desert survival", "Arctic survival", "Jungle survival", "Coastal survival", "Environment-specific gear", "Climate adaptation"],
+      "psychological_profile": "Location-aware, climate-concerned, values specialized knowledge, adventure-seeking"
+    },
+    "financial_survivalist": {
+      "archetype_name": "The Financial Survivalist",
+      "emotional_core": "Economic security, wealth preservation, independence from banking system",
+      "primary_fears": ["Currency collapse", "Hyperinflation", "Bank failures", "Government confiscation", "Poverty"],
+      "primary_hopes": ["Wealth preservation", "Economic independence", "Post-collapse prosperity"],
+      "book_ids": [61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80],
+      "book_count": 20,
+      "key_themes": ["Precious metals", "Cryptocurrency", "Barter economy", "Economic collapse", "Alternative currencies", "Wealth preservation"],
+      "psychological_profile": "Financially literate, distrusts fiat currency and banks, Austrian economics mindset, entrepreneurial"
+    },
+    "field_medic": {
+      "archetype_name": "The Field Medic",
+      "emotional_core": "Healthcare independence, family protection, medical self-reliance",
+      "primary_fears": ["Medical emergencies without care", "Pandemic", "Hospital unavailability", "Medication shortages"],
+      "primary_hopes": ["Saving loved ones", "Medical self-sufficiency", "Healthcare independence"],
+      "book_ids": [81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100],
+      "book_count": 20,
+      "key_themes": ["Emergency medicine", "Herbal remedies", "Trauma care", "Dental emergencies", "Pandemic prep", "Medical supplies"],
+      "psychological_profile": "Caretaker mentality, medically curious, fears losing loved ones to treatable conditions, responsible"
+    },
+    "family_protector": {
+      "archetype_name": "The Family Protector",
+      "emotional_core": "Child safety, multi-generational care, nurturing while preparing",
+      "primary_fears": ["Children suffering in crisis", "Family separation", "Inadequate child protection", "Trauma to innocents"],
+      "primary_hopes": ["Safe, prepared children", "Family unity in crisis", "Normalized preparedness"],
+      "book_ids": [101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120],
+      "book_count": 20,
+      "key_themes": ["Child preparedness", "Family evacuation", "Age-appropriate skills", "Pet safety", "Calming techniques", "Family communications"],
+      "psychological_profile": "Parent/caregiver, anxious about child safety, seeks age-appropriate solutions, values psychological preparation"
+    },
+    "homesteader": {
+      "archetype_name": "The Homesteader",
+      "emotional_core": "Food security, land-based independence, productive self-sufficiency",
+      "primary_fears": ["Food shortages", "Supply chain collapse", "Dependency on grocery stores", "Soil depletion"],
+      "primary_hopes": ["Food independence", "Sustainable lifestyle", "Generational legacy", "Land stewardship"],
+      "book_ids": [121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140],
+      "book_count": 20,
+      "key_themes": ["Gardening", "Livestock", "Food preservation", "Seed saving", "Off-grid systems", "Permaculture"],
+      "psychological_profile": "Patient, land-connected, values traditional skills, long-term thinker, sustainability-focused"
+    },
+    "urban_survivor": {
+      "archetype_name": "The Urban Survivor",
+      "emotional_core": "City adaptation, civil unrest preparedness, bug-out readiness",
+      "primary_fears": ["Riots", "Civil unrest", "Being trapped in cities", "Martial law", "Urban collapse"],
+      "primary_hopes": ["Safe urban navigation", "Escape capability", "Apartment fortress", "Gray man invisibility"],
+      "book_ids": [141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160],
+      "book_count": 20,
+      "key_themes": ["Urban escape", "Apartment security", "City navigation", "Scavenging", "Urban camouflage", "Crowd tactics"],
+      "psychological_profile": "City-bound by circumstance, situationally aware, tactically minded, seeks mobility and concealment"
+    }
+  },
+  "cross_cutting_emotional_drivers": {
+    "fear_based": {
+      "government_overreach": ["Digital Defender", "Financial Survivalist", "Urban Survivor"],
+      "societal_collapse": ["All archetypes"],
+      "personal_helplessness": ["Field Medic", "Family Protector", "Wilderness Survivor"],
+      "economic_ruin": ["Financial Survivalist", "Homesteader"],
+      "violence_chaos": ["Urban Survivor", "Family Protector"]
+    },
+    "hope_based": {
+      "independence": ["Wilderness Survivor", "Homesteader", "Financial Survivalist"],
+      "mastery": ["Environment Specialist", "Field Medic", "Wilderness Survivor"],
+      "family_safety": ["Family Protector", "Field Medic"],
+      "freedom": ["Digital Defender", "Urban Survivor"],
+      "prosperity": ["Financial Survivalist", "Homesteader"]
+    },
+    "pride_based": {
+      "self_reliance": ["All archetypes"],
+      "preparedness": ["All archetypes"],
+      "protecting_others": ["Family Protector", "Field Medic"],
+      "resisting_control": ["Digital Defender", "Financial Survivalist"]
+    },
+    "anger_based": {
+      "system_betrayal": ["Financial Survivalist", "Digital Defender"],
+      "forced_vulnerability": ["All archetypes"],
+      "threatened_freedom": ["Digital Defender", "Urban Survivor"],
+      "institutional_failure": ["Field Medic", "Financial Survivalist"]
+    }
+  },
+  "demographic_overlays": {
+    "missing_or_underserved": [
+      "female_prepper",
+      "senior_prepper",
+      "disabled_prepper",
+      "faith_based_prepper",
+      "patriot_militant",
+      "refugee_immigrant",
+      "rural_remote",
+      "coastal_island",
+      "suburban_middle_class",
+      "single_parent"
+    ]
+  }
+}
