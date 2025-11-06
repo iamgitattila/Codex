@@ -2,7 +2,29 @@
 
 Automatically scrape and save Sora video links to Google Sheets whenever new videos are published.
 
-## Features
+## Two Modes of Operation
+
+This project supports two different use cases:
+
+### 1. Public Showcase Monitoring (This Guide)
+Monitor OpenAI's public Sora showcase page for featured videos.
+- **No authentication required**
+- **Runs every 6 hours**
+- **Extracts direct video URLs**
+- **Ideal for:** Tracking OpenAI's featured Sora content
+
+### 2. Personal Profile Monitoring (Real-Time)
+Monitor your personal Sora profile for videos you publish.
+- **Requires authentication**
+- **Real-time monitoring (every 60+ seconds)**
+- **Extracts share links via "Share > Copy link"**
+- **Ideal for:** Auto-saving your own video share links
+
+📖 **For Personal Profile Monitoring, see [SORA_PROFILE_MONITORING.md](SORA_PROFILE_MONITORING.md)**
+
+---
+
+## Features (Public Showcase)
 
 - **Automated Scraping**: Monitors OpenAI's Sora showcase page for new videos
 - **Duplicate Detection**: Tracks processed videos to avoid duplicates

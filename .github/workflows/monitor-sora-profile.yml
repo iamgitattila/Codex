@@ -1,0 +1,87 @@
+name: Monitor Sora Profile for New Videos
+
+on:
+  # Run every hour (more frequent for real-time monitoring)
+  schedule:
+    - cron: '0 * * * *'
+
+  # Allow manual trigger
+  workflow_dispatch:
+
+  # Run on push to specific branches for testing
+  push:
+    branches:
+      - main
+      - claude/**
+
+jobs:
+  monitor-profile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Chrome and ChromeDriver
+        run: |
+          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable xvfb
+          google-chrome --version
+
+      - name: Create credentials file
+        run: |
+          echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
+
+      - name: Create cookies file
+        if: ${{ secrets.SORA_COOKIES != '' }}
+        run: |
+          echo '${{ secrets.SORA_COOKIES }}' > sora_cookies.json
+
+      - name: Run Sora profile monitor (single check)
+        env:
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+          SORA_PROFILE_URL: ${{ vars.SORA_PROFILE_URL }}
+          SHEET_NAME: ${{ vars.SHEET_NAME || 'Sora Videos' }}
+          DISPLAY: ':99'
+        run: |
+          # Start virtual display for headless browser
+          Xvfb :99 -screen 0 1920x1080x24 &
+          sleep 2
+
+          cd src
+          python realtime_monitor.py \
+            --profile-url "$SORA_PROFILE_URL" \
+            --credentials ../credentials.json \
+            --spreadsheet-id "$SPREADSHEET_ID" \
+            --sheet-name "$SHEET_NAME" \
+            --cookies-file ../sora_cookies.json \
+            --headless \
+            --once
+
+      - name: Clean up credentials
+        if: always()
+        run: |
+          rm -f credentials.json sora_cookies.json
+
+      - name: Upload logs as artifact
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: monitor-logs
+          path: |
+            *.log
+            page_source.html
+          retention-days: 3

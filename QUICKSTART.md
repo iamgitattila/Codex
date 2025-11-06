@@ -2,6 +2,13 @@
 
 Get started with Sora Video Link Automation in 5 minutes!
 
+## Choose Your Mode
+
+- **Public Showcase Monitoring**: Follow this guide
+- **Personal Profile Monitoring**: See [SORA_PROFILE_MONITORING.md](SORA_PROFILE_MONITORING.md)
+
+---
+
 ## Step 1: Set Up Google Cloud
 
 1. Go to https://console.cloud.google.com/
