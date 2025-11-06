@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Ads Bulk Bid Editor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Facebook Ads Bulk Bid Editor</h1>
+            <p>Select campaigns and bulk edit bid caps on ad sets</p>
+        </header>
+
+        <!-- Step 1: Account Selection -->
+        <section id="account-section" class="section">
+            <h2>Step 1: Select Account</h2>
+            <div id="account-loading" class="loading" style="display: none;">Loading accounts...</div>
+            <div id="account-error" class="error" style="display: none;"></div>
+            <select id="account-select" class="select-box">
+                <option value="">-- Select an Account --</option>
+            </select>
+        </section>
+
+        <!-- Step 2: Campaign Selection -->
+        <section id="campaign-section" class="section" style="display: none;">
+            <h2>Step 2: Select Campaigns</h2>
+            <div id="campaign-loading" class="loading" style="display: none;">Loading campaigns...</div>
+            <div id="campaign-error" class="error" style="display: none;"></div>
+            <div class="controls">
+                <button id="select-all-campaigns" class="btn btn-secondary">Select All</button>
+                <button id="deselect-all-campaigns" class="btn btn-secondary">Deselect All</button>
+            </div>
+            <div id="campaign-list" class="checkbox-list"></div>
+            <button id="load-adsets" class="btn btn-primary" style="display: none;">Load Ad Sets</button>
+        </section>
+
+        <!-- Step 3: Ad Set Display & Bid Update -->
+        <section id="adset-section" class="section" style="display: none;">
+            <h2>Step 3: Ad Sets</h2>
+            <div id="adset-loading" class="loading" style="display: none;">Loading ad sets...</div>
+            <div id="adset-error" class="error" style="display: none;"></div>
+            <div id="adset-summary" class="summary" style="display: none;"></div>
+            <div id="adset-list" class="adset-grid"></div>
+        </section>
+
+        <!-- Step 4: Bulk Bid Update -->
+        <section id="update-section" class="section" style="display: none;">
+            <h2>Step 4: Update Bid Cap</h2>
+            <div class="update-form">
+                <label for="bid-amount">New Bid Cap ($):</label>
+                <input type="number" id="bid-amount" step="0.01" min="0" placeholder="Enter bid amount">
+                <button id="update-bids" class="btn btn-primary">Update All Ad Sets</button>
+            </div>
+            <div id="update-loading" class="loading" style="display: none;">Updating ad sets...</div>
+            <div id="update-result" class="result" style="display: none;"></div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
