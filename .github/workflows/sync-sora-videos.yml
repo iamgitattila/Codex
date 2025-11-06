@@ -1,0 +1,95 @@
+name: Sync Sora Videos to Google Sheets
+
+on:
+  # Run every 6 hours
+  schedule:
+    - cron: '0 */6 * * *'
+
+  # Allow manual trigger
+  workflow_dispatch:
+
+  # Run on push to main for testing
+  push:
+    branches:
+      - main
+      - claude/**
+
+jobs:
+  sync-videos:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Chrome and ChromeDriver
+        run: |
+          # Install Chrome
+          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+          # Verify installation
+          google-chrome --version
+
+      - name: Create credentials file
+        run: |
+          echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
+
+      - name: Create data directory
+        run: mkdir -p data
+
+      - name: Restore state from previous run
+        uses: actions/cache@v3
+        with:
+          path: data/processed_videos.json
+          key: processed-videos-${{ github.run_id }}
+          restore-keys: |
+            processed-videos-
+
+      - name: Run Sora video scraper
+        env:
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+          SORA_URL: ${{ vars.SORA_URL || 'https://openai.com/sora/' }}
+          SHEET_NAME: ${{ vars.SHEET_NAME || 'Sora Videos' }}
+        run: |
+          cd src
+          python main.py \
+            --sora-url "$SORA_URL" \
+            --credentials ../credentials.json \
+            --spreadsheet-id "$SPREADSHEET_ID" \
+            --sheet-name "$SHEET_NAME" \
+            --state-file ../data/processed_videos.json
+
+      - name: Save state for next run
+        uses: actions/cache/save@v3
+        if: always()
+        with:
+          path: data/processed_videos.json
+          key: processed-videos-${{ github.run_id }}
+
+      - name: Clean up credentials
+        if: always()
+        run: |
+          rm -f credentials.json
+
+      - name: Upload logs as artifact
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: scraper-logs
+          path: |
+            *.log
+          retention-days: 7

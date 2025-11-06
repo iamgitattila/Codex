@@ -1,0 +1,17 @@
+{
+  "sora_url": "https://openai.com/sora/",
+  "credentials_path": "credentials.json",
+  "spreadsheet_id": "your_spreadsheet_id_here",
+  "sheet_name": "Sora Videos",
+  "state_file": "data/processed_videos.json",
+  "use_selenium": true,
+  "scraping": {
+    "timeout": 30,
+    "retry_attempts": 3,
+    "wait_time": 5
+  },
+  "schedule": {
+    "enabled": true,
+    "interval_hours": 6
+  }
+}
