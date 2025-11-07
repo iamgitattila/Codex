@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Thank You | Prepper Codex</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="survey.css" />
+
+  <!-- Facebook Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod ?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n; n.loaded=!0; n.version='2.0'; n.queue=[]; t=b.createElement(e);
+    t.async=!0; t.src=v; s=b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s)
+    }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init','YOUR_PIXEL_ID');
+    fbq('track','PageView');
+  </script>
+</head>
+
+<body class="bg">
+  <main class="container">
+    <div class="card">
+      <h1>Thanks, Prepper!</h1>
+      <p>Your responses are logged. Here's what to do next:</p>
+
+      <div class="ref"><strong>Your Reference Number:</strong> <span id="refCode">Loading...</span></div>
+      <p class="hint">Keep this reference number for your free ebook claim below.</p>
+
+      <hr />
+
+      <h2>Step 1: Browse the Store</h2>
+      <p>Check out our survival bookstore and pick your free ebook (you can shop while you're there).</p>
+      <a class="btn btn-primary" target="_blank"
+         href="https://YOURSHOPIFYDOMAIN.com/collections/books?utm_source=survey&utm_medium=thankyou&utm_campaign=freebook">
+         Browse Survival Bookstore
+      </a>
+
+      <hr />
+
+      <h2>Step 2: Claim Your Free Ebook</h2>
+      <p>Fill out the form below with your reference number and the title of the book you want.</p>
+
+      <form id="claimForm" method="POST" action="https://formspree.io/f/YOUR_FORMSPREE_ID">
+        <div class="grid2">
+          <input type="text" name="full_name" placeholder="Full name" required />
+          <input type="email" name="email" id="claimEmail" placeholder="Email" required />
+        </div>
+        <input type="text" name="reference" id="claimRef" placeholder="Reference number (PC-XXXXXX)" required />
+        <input type="text" name="book_title" placeholder="Book title you want" required />
+        <textarea name="message" rows="3" placeholder="Optional comments"></textarea>
+        <input type="hidden" name="survey_payload" id="surveyPayload" />
+        <button type="submit" class="btn btn-primary">Submit Claim</button>
+      </form>
+
+      <div id="claimSuccess" class="success hide">
+        <p><strong>Success!</strong> Your claim has been submitted. We'll send your ebook to your email soon.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; <span id="year"></span> Prepper Codex | <a href="index.html">Take Survey Again</a></p>
+  </footer>
+
+  <script>
+    // Load reference number and email from localStorage
+    const params = new URLSearchParams(location.search);
+    const ref = params.get('ref') || localStorage.getItem('prepper_ref') || 'N/A';
+
+    document.getElementById('refCode').textContent = ref;
+    document.getElementById('claimRef').value = ref;
+
+    // Pre-fill email if available
+    const surveyData = JSON.parse(localStorage.getItem('prepper_survey') || '{}');
+    if (surveyData.email) {
+      document.getElementById('claimEmail').value = surveyData.email;
+    }
+
+    // Include full survey data in hidden field
+    document.getElementById('surveyPayload').value = JSON.stringify(surveyData);
+
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Handle form submission
+    const form = document.getElementById('claimForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Show loading state
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Submitting...';
+      submitBtn.disabled = true;
+
+      try {
+        const formData = new FormData(form);
+
+        // Submit to Formspree
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          // Fire Facebook Pixel Lead event
+          if (typeof fbq !== 'undefined') {
+            fbq('track', 'Lead', {
+              content_name: 'Free Ebook Claim',
+              content_category: 'Survey Completion',
+              value: 0.00,
+              currency: 'USD'
+            });
+          }
+
+          // Hide form and show success message
+          form.classList.add('hide');
+          document.getElementById('claimSuccess').classList.remove('hide');
+        } else {
+          throw new Error('Form submission failed');
+        }
+      } catch (error) {
+        alert('There was an error submitting your claim. Please try again or contact support with your reference number: ' + ref);
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
