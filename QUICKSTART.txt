@@ -1,0 +1,150 @@
+================================================================================
+VIDEO CATEGORIZER - QUICK START GUIDE FOR WINDOWS 11
+================================================================================
+
+WHAT THIS DOES:
+- Transcribes your videos using AI
+- Categorizes them as COLD AUDIENCE or RETARGETING
+- Identifies marketing angle, style, and psychology
+- Renames and organizes videos automatically
+
+================================================================================
+SETUP (One-time only)
+================================================================================
+
+STEP 1: Install Python
+-----------------------
+1. Go to: https://www.python.org/downloads/
+2. Download Python 3.11 or newer
+3. Run installer
+4. ✓ CHECK "Add Python to PATH" (IMPORTANT!)
+5. Click "Install Now"
+
+STEP 2: Install FFmpeg
+-----------------------
+Open PowerShell or Command Prompt and run:
+
+    winget install ffmpeg
+
+STEP 3: Get OpenAI API Key
+--------------------------
+1. Go to: https://platform.openai.com/
+2. Sign up / Log in
+3. Go to API Keys section
+4. Click "Create new secret key"
+5. Copy the key (starts with "sk-...")
+6. Add credits to your account ($5-10 recommended)
+
+STEP 4: Configure the Tool
+---------------------------
+1. Copy "config.json.example" to "config.json"
+2. Open config.json in Notepad
+3. Replace YOUR_OPENAI_API_KEY_HERE with your actual key
+4. Save and close
+
+STEP 5: Install Python Packages
+--------------------------------
+Open Command Prompt in this folder and run:
+
+    pip install -r requirements.txt
+
+================================================================================
+USAGE (Every time you want to process videos)
+================================================================================
+
+STEP 1: Add Videos
+------------------
+Put your MP4 or MOV files in the "videos" folder
+
+STEP 2: Run the Script
+----------------------
+Double-click: run_categorizer.bat
+
+OR open Command Prompt and run:
+
+    python video_categorizer.py
+
+STEP 3: Wait for Processing
+----------------------------
+The script will:
+- Extract audio from each video
+- Transcribe using AI
+- Analyze content
+- Rename and organize files
+- Show progress in the console
+
+STEP 4: Check Results
+---------------------
+Find organized videos in: "categorized_videos" folder
+- cold/ - Videos for cold audiences
+- retargeting/ - Videos for retargeting
+
+Also check: "categorization_results.json" for detailed analysis
+
+================================================================================
+FILE NAMING
+================================================================================
+
+Videos are renamed like:
+COLD_pain-point-solution_energetic_urgency.mp4
+
+Format: {AUDIENCE}_{ANGLE}_{STYLE}_{PSYCHOLOGY}.ext
+
+Examples:
+- COLD_educational_professional_curiosity.mp4
+- RETARGETING_social-proof_casual_fomo.mov
+- COLD_testimonial_energetic_authority.mp4
+
+================================================================================
+COSTS (Approximate)
+================================================================================
+
+Per video (5 min average):
+- Transcription: $0.03
+- Analysis: $0.002
+- Total: ~$0.032 per video
+
+10 videos: ~$0.32
+100 videos: ~$3.20
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+Problem: "Python is not recognized"
+Solution: Reinstall Python and CHECK "Add Python to PATH"
+
+Problem: "FFmpeg not found"
+Solution: Run "winget install ffmpeg" or add FFmpeg to PATH
+
+Problem: "Please set your OpenAI API key"
+Solution: Edit config.json with your actual API key
+
+Problem: "No videos found"
+Solution: Put .mp4 or .mov files in the "videos" folder
+
+Problem: Rate limit error
+Solution: Wait a moment, or check your OpenAI account has credits
+
+================================================================================
+TIPS
+================================================================================
+
+✓ Test with 1-2 videos first
+✓ Make sure videos have clear audio
+✓ Keep backups of originals (set "copy_instead_of_move": true in config)
+✓ Check categorization_results.json to verify accuracy
+✓ Videos with clear marketing intent categorize better
+
+================================================================================
+NEED HELP?
+================================================================================
+
+See README_VIDEO_CATEGORIZER.md for detailed documentation
+
+Check:
+- OpenAI API docs: https://platform.openai.com/docs
+- FFmpeg installation: https://ffmpeg.org/
+- Python installation: https://www.python.org/
+
+================================================================================

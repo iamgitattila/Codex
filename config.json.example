@@ -1,0 +1,10 @@
+{
+  "openai_api_key": "YOUR_OPENAI_API_KEY_HERE",
+  "video_extensions": [".mp4", ".mov"],
+  "input_folder": "./videos",
+  "output_folder": "./categorized_videos",
+  "transcription_model": "whisper-1",
+  "analysis_model": "gpt-4o-mini",
+  "create_subfolders": true,
+  "copy_instead_of_move": false
+}

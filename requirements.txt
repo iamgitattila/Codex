@@ -1,0 +1,7 @@
+# Core dependencies for Video Categorizer
+openai>=1.12.0
+pathlib>=1.0.1
+
+# Note: FFmpeg is required but must be installed separately
+# Download from: https://ffmpeg.org/download.html
+# Or use: winget install ffmpeg (Windows 11)
