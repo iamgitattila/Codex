@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Pawsome Treats Co.</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <div class="logo">
+                        <h1>🐾 Pawsome Treats Co.</h1>
+                        <p class="tagline">Wholesome Goodness for Your Best Friend</p>
+                    </div>
+                    <ul class="nav-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="cart.html" class="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Checkout</h1>
+            </div>
+        </section>
+
+        <section class="checkout-section">
+            <div class="container">
+                <div class="checkout-grid">
+                    <div class="checkout-form">
+                        <form id="checkout-form">
+                            <div class="form-section">
+                                <h2>Shipping Information</h2>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="first-name">First Name *</label>
+                                        <input type="text" id="first-name" name="firstName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="last-name">Last Name *</label>
+                                        <input type="text" id="last-name" name="lastName" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email">Email *</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phone">Phone *</label>
+                                    <input type="tel" id="phone" name="phone" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="address">Street Address *</label>
+                                    <input type="text" id="address" name="address" required>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="city">City *</label>
+                                        <input type="text" id="city" name="city" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="state">State *</label>
+                                        <input type="text" id="state" name="state" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="zip">ZIP Code *</label>
+                                        <input type="text" id="zip" name="zip" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h2>Payment Information</h2>
+                                <div class="form-group">
+                                    <label for="card-name">Name on Card *</label>
+                                    <input type="text" id="card-name" name="cardName" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="card-number">Card Number *</label>
+                                    <input type="text" id="card-number" name="cardNumber" placeholder="1234 5678 9012 3456" required>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="expiry">Expiry Date *</label>
+                                        <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cvv">CVV *</label>
+                                        <input type="text" id="cvv" name="cvv" placeholder="123" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h2>Order Notes (Optional)</h2>
+                                <div class="form-group">
+                                    <label for="notes">Special instructions for your order</label>
+                                    <textarea id="notes" name="notes" rows="4"></textarea>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">Place Order</button>
+                        </form>
+                    </div>
+
+                    <div class="checkout-summary">
+                        <h2>Order Summary</h2>
+                        <div id="checkout-items" class="checkout-items">
+                            <!-- Order items will be loaded here -->
+                        </div>
+                        <hr>
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="checkout-subtotal">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping:</span>
+                            <span id="checkout-shipping">$5.99</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax (8%):</span>
+                            <span id="checkout-tax">$0.00</span>
+                        </div>
+                        <hr>
+                        <div class="summary-row total">
+                            <span>Total:</span>
+                            <span id="checkout-total">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="order-success-modal" class="modal">
+            <div class="modal-content">
+                <h2>Order Placed Successfully!</h2>
+                <p>Thank you for your order! Your furry friend will love these treats.</p>
+                <p>Order confirmation has been sent to your email.</p>
+                <button class="btn btn-primary" onclick="window.location.href='index.html'">Return to Home</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Pawsome Treats Co. All rights reserved.</p>
+            <p>Made with ❤️ for dogs everywhere</p>
+        </div>
+    </footer>
+
+    <script src="cart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cart = getCart();
+
+            if (cart.length === 0) {
+                window.location.href = 'cart.html';
+                return;
+            }
+
+            displayCheckoutSummary();
+
+            document.getElementById('checkout-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // Show success modal
+                document.getElementById('order-success-modal').style.display = 'flex';
+
+                // Clear cart
+                clearCart();
+                updateCartCount();
+            });
+        });
+
+        function displayCheckoutSummary() {
+            const cart = getCart();
+            const checkoutItemsContainer = document.getElementById('checkout-items');
+            const shippingCost = 5.99;
+            const taxRate = 0.08;
+
+            let subtotal = 0;
+            checkoutItemsContainer.innerHTML = '';
+
+            cart.forEach(item => {
+                const product = products.find(p => p.id === item.id);
+                if (product) {
+                    const itemTotal = product.price * item.quantity;
+                    subtotal += itemTotal;
+
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'checkout-item';
+                    itemDiv.innerHTML = `
+                        <div class="checkout-item-details">
+                            <strong>${product.name}</strong>
+                            <span>Qty: ${item.quantity}</span>
+                        </div>
+                        <span>$${itemTotal.toFixed(2)}</span>
+                    `;
+                    checkoutItemsContainer.appendChild(itemDiv);
+                }
+            });
+
+            const tax = subtotal * taxRate;
+            const total = subtotal + shippingCost + tax;
+
+            document.getElementById('checkout-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('checkout-shipping').textContent = `$${shippingCost.toFixed(2)}`;
+            document.getElementById('checkout-tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('checkout-total').textContent = `$${total.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>

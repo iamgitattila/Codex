@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Pawsome Treats Co.</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <div class="logo">
+                        <h1>🐾 Pawsome Treats Co.</h1>
+                        <p class="tagline">Wholesome Goodness for Your Best Friend</p>
+                    </div>
+                    <ul class="nav-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="cart.html" class="active cart-link">Cart (<span id="cart-count">0</span>)</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Your Shopping Cart</h1>
+            </div>
+        </section>
+
+        <section class="cart-section">
+            <div class="container">
+                <div id="cart-empty" class="cart-empty" style="display: none;">
+                    <p>Your cart is empty</p>
+                    <a href="products.html" class="btn btn-primary">Continue Shopping</a>
+                </div>
+
+                <div id="cart-content" class="cart-content">
+                    <div class="cart-items" id="cart-items">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+
+                    <div class="cart-summary">
+                        <h2>Order Summary</h2>
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="cart-subtotal">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping:</span>
+                            <span id="cart-shipping">$5.99</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax (8%):</span>
+                            <span id="cart-tax">$0.00</span>
+                        </div>
+                        <hr>
+                        <div class="summary-row total">
+                            <span>Total:</span>
+                            <span id="cart-total">$0.00</span>
+                        </div>
+                        <button class="btn btn-primary btn-block" id="checkout-btn">Proceed to Checkout</button>
+                        <a href="products.html" class="btn btn-secondary btn-block">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Pawsome Treats Co. All rights reserved.</p>
+            <p>Made with ❤️ for dogs everywhere</p>
+        </div>
+    </footer>
+
+    <script src="cart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            displayCart();
+
+            document.getElementById('checkout-btn').addEventListener('click', function() {
+                const cart = getCart();
+                if (cart.length > 0) {
+                    window.location.href = 'checkout.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
