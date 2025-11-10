@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Revealbot Clone{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Revealbot Clone</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="/dashboard" class="nav-item active">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="/campaigns" class="nav-item">
+                <span class="nav-icon">🎯</span>
+                <span>Campaigns</span>
+            </a>
+            <a href="/rules" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span>Automation Rules</span>
+            </a>
+            <a href="/analytics" class="nav-item">
+                <span class="nav-icon">📈</span>
+                <span>Analytics</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <button id="logout-btn" class="btn btn-secondary btn-block">Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="page-header">
+            <h1>Dashboard Overview</h1>
+            <div class="header-actions">
+                <select id="date-range" class="form-select">
+                    <option value="7">Last 7 days</option>
+                    <option value="30" selected>Last 30 days</option>
+                    <option value="90">Last 90 days</option>
+                </select>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Spend</div>
+                    <div class="stat-value" id="total-spend">$0.00</div>
+                    <div class="stat-change positive">+0%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Conversions</div>
+                    <div class="stat-value" id="total-conversions">0</div>
+                    <div class="stat-change positive">+0%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Average ROAS</div>
+                    <div class="stat-value" id="avg-roas">0.0x</div>
+                    <div class="stat-change positive">+0%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Active Campaigns</div>
+                    <div class="stat-value" id="active-campaigns">0</div>
+                    <div class="stat-change">0 active</div>
+                </div>
+            </div>
+
+            <!-- Charts and Tables -->
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Top Performing Campaigns</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="top-campaigns-table" class="table-container">
+                            <p class="empty-state">Connect an ad account to see your campaigns</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Automation Activity</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="automation-logs" class="activity-list">
+                            <p class="empty-state">No automation rules executed yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h3>Quick Actions</h3>
+                <div class="actions-grid">
+                    <a href="/campaigns" class="action-card">
+                        <div class="action-icon">➕</div>
+                        <div class="action-label">Add Ad Account</div>
+                    </a>
+                    <a href="/rules" class="action-card">
+                        <div class="action-icon">⚙️</div>
+                        <div class="action-label">Create Rule</div>
+                    </a>
+                    <a href="/analytics" class="action-card">
+                        <div class="action-icon">📊</div>
+                        <div class="action-label">View Analytics</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+// Logout functionality
+document.getElementById('logout-btn').addEventListener('click', async function() {
+    try {
+        await fetch('/auth/logout', { method: 'POST' });
+        window.location.href = '/';
+    } catch (error) {
+        console.error('Logout failed:', error);
+    }
+});
+
+// Load dashboard data
+async function loadDashboardData() {
+    // This would be implemented to fetch real data from the API
+    console.log('Loading dashboard data...');
+}
+
+// Initialize dashboard
+loadDashboardData();
+</script>
+{% endblock %}

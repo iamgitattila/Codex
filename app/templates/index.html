@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Revealbot Clone - Marketing Automation Platform{% endblock %}
+
+{% block content %}
+<div class="landing-page">
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>Revealbot Clone</h1>
+            </div>
+            <nav>
+                <a href="/login" class="btn btn-secondary">Login</a>
+                <a href="/register" class="btn btn-primary">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">Automate Your Ad Campaigns</h1>
+            <p class="hero-subtitle">
+                Scale your advertising across Facebook, Google, TikTok, and Snapchat with powerful automation rules and budget optimization
+            </p>
+            <div class="hero-cta">
+                <a href="/register" class="btn btn-primary btn-large">Start Free Trial</a>
+                <a href="#features" class="btn btn-outline btn-large">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Powerful Features</h2>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Automated Rules</h3>
+                    <p>Create custom automation rules with conditions and actions to optimize campaigns 24/7</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Budget Optimization</h3>
+                    <p>Smart budget allocation based on performance to maximize ROI and reduce wasted spend</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Advanced Analytics</h3>
+                    <p>Comprehensive performance reporting with trends, comparisons, and actionable insights</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <h3>Smart Notifications</h3>
+                    <p>Get alerts via email, Slack, or in-app when important events occur in your campaigns</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>A/B Testing</h3>
+                    <p>Run sophisticated split tests to find the best performing creative, audience, and placements</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Bulk Editing</h3>
+                    <p>Make changes to multiple campaigns, ad sets, or ads simultaneously to save time</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="platforms">
+        <div class="container">
+            <h2 class="section-title">Supported Platforms</h2>
+            <div class="platform-logos">
+                <div class="platform-logo">Facebook Ads</div>
+                <div class="platform-logo">Google Ads</div>
+                <div class="platform-logo">TikTok Ads</div>
+                <div class="platform-logo">Snapchat Ads</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Automate Your Advertising?</h2>
+            <p>Join thousands of marketers who are scaling their campaigns with automation</p>
+            <a href="/register" class="btn btn-primary btn-large">Get Started Now</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Revealbot Clone. Marketing Automation Platform.</p>
+        </div>
+    </footer>
+</div>
+{% endblock %}
