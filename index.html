@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Quick survey - claim your exclusive offer">
+    <title>Quick Survey - Claim Your Exclusive Offer</title>
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="config.js" as="script">
+    <link rel="preload" href="survey.js" as="script">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Favicon (optional - replace with your own) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div id="progressBar" class="progress-bar">
+        <div id="progressFill" class="progress-fill"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Survey Section -->
+        <section id="surveySection" class="section active">
+            <div class="survey-header">
+                <h1 class="survey-title">Help Us Help You Better</h1>
+                <p class="survey-subtitle">Answer 3 quick questions to unlock your exclusive offer</p>
+                <div class="time-estimate">⏱️ Takes less than 30 seconds</div>
+            </div>
+
+            <div id="questionsContainer" class="questions-container">
+                <!-- Questions will be dynamically inserted here -->
+            </div>
+
+            <div class="survey-footer">
+                <button id="nextBtn" class="btn btn-primary" disabled>
+                    Continue
+                    <svg class="btn-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <p class="privacy-note">🔒 Your answers are confidential and never shared</p>
+            </div>
+        </section>
+
+        <!-- Offer Section -->
+        <section id="offerSection" class="section">
+            <div class="offer-container">
+                <!-- Announcement Badge -->
+                <div class="badge">Special Offer Based on Your Answers</div>
+
+                <!-- Offer Header -->
+                <div class="offer-header">
+                    <h1 id="offerHeadline" class="offer-headline"></h1>
+                    <p id="offerSubheadline" class="offer-subheadline"></p>
+                </div>
+
+                <!-- Product Image -->
+                <div class="product-image-container">
+                    <img id="productImage" class="product-image" alt="Product" loading="lazy">
+                </div>
+
+                <!-- Description -->
+                <div class="offer-description">
+                    <p id="offerDescription" class="description-text"></p>
+                </div>
+
+                <!-- Benefits -->
+                <div class="benefits-section">
+                    <h3 class="benefits-title">Here's What You'll Get:</h3>
+                    <ul id="benefitsList" class="benefits-list">
+                        <!-- Benefits will be inserted here -->
+                    </ul>
+                </div>
+
+                <!-- What's Included -->
+                <div class="included-section">
+                    <h3 class="included-title">What's Included:</h3>
+                    <div id="bulletsList" class="bullets-list">
+                        <!-- Bullets will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Pricing -->
+                <div class="pricing-section">
+                    <div class="price-container">
+                        <div class="price-wrapper">
+                            <span class="currency">$</span>
+                            <span id="price" class="price"></span>
+                        </div>
+                        <div id="urgency" class="urgency-text"></div>
+                    </div>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="cta-section">
+                    <button id="ctaBtn" class="btn btn-cta">
+                        <span id="ctaText"></span>
+                        <svg class="btn-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <p class="secure-checkout">🔒 Secure checkout • Instant access</p>
+                </div>
+
+                <!-- Guarantee -->
+                <div class="guarantee-section">
+                    <div class="guarantee-badge">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#FFD700" stroke="#FFA500" stroke-width="2"/>
+                        </svg>
+                        <div>
+                            <div class="guarantee-title">100% Money-Back Guarantee</div>
+                            <p id="guaranteeText" class="guarantee-text"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trust Indicators -->
+                <div class="trust-indicators">
+                    <div class="trust-item">
+                        <span class="trust-icon">✓</span>
+                        <span>Instant Download</span>
+                    </div>
+                    <div class="trust-item">
+                        <span class="trust-icon">✓</span>
+                        <span>Secure Payment</span>
+                    </div>
+                    <div class="trust-item">
+                        <span class="trust-icon">✓</span>
+                        <span>30-Day Guarantee</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Thank You Section (after CTA click) -->
+        <section id="thankYouSection" class="section">
+            <div class="thankyou-container">
+                <div class="success-icon">
+                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                        <circle cx="40" cy="40" r="40" fill="#10B981"/>
+                        <path d="M25 40L35 50L55 30" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h1 class="thankyou-title">Processing Your Order...</h1>
+                <p class="thankyou-text">You'll be redirected to secure checkout in a moment.</p>
+                <div class="loader"></div>
+                <p class="thankyou-note">Need help? Contact us at <a href="mailto:support@example.com">support@example.com</a></p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Load Configuration First -->
+    <script src="config.js"></script>
+    <!-- Then Load Survey Logic -->
+    <script src="survey.js"></script>
+</body>
+</html>
