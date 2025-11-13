@@ -218,7 +218,14 @@ function showQuestion(index) {
     const nextBtn = document.getElementById('nextBtn');
     if (index === SURVEY_CONFIG.questions.length - 1) {
         nextBtn.innerHTML = `
-            See My Exclusive Offer
+            🔥 SHOW ME THE MONEY-MAKING OFFER NOW!
+            <svg class="btn-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        `;
+    } else {
+        nextBtn.innerHTML = `
+            Next Question →
             <svg class="btn-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -309,7 +316,61 @@ function showOffer() {
         price: state.tripwire.price
     });
 
+    // Start countdown timer for urgency
+    startCountdownTimer();
+
     console.log('💰 Showing offer:', state.tripwire.name);
+}
+
+// ============================================
+// COUNTDOWN TIMER FOR URGENCY
+// ============================================
+function startCountdownTimer() {
+    // Set timer for 15 minutes
+    let timeLeft = 900; // 15 minutes in seconds
+
+    const timerElement = document.getElementById('urgency');
+    const originalUrgencyText = timerElement.textContent;
+
+    const countdownInterval = setInterval(() => {
+        timeLeft--;
+
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+
+        const formattedTime = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+        // Update urgency text with countdown
+        if (originalUrgencyText.includes('23:47:16') || originalUrgencyText.includes('INCREASES')) {
+            timerElement.textContent = `⚠️ PRICE INCREASES TO $97 IN: ${formattedTime} - Grab it NOW at 95% OFF`;
+        } else if (originalUrgencyText.includes('127 copies')) {
+            timerElement.textContent = `🚨 EMERGENCY: 127 copies left - OFFER EXPIRES IN: ${formattedTime}`;
+        } else if (originalUrgencyText.includes('4 HOURS') || originalUrgencyText.includes('VANISHING')) {
+            timerElement.textContent = `⏰ VANISHING IN: ${formattedTime} (This page will self-destruct)`;
+        }
+
+        // Add pulsing effect when under 5 minutes
+        if (timeLeft <= 300) {
+            timerElement.style.animation = 'pulse 1s infinite';
+            timerElement.style.color = '#EF4444';
+        }
+
+        // Add more urgency when under 2 minutes
+        if (timeLeft <= 120) {
+            timerElement.style.fontSize = '18px';
+            timerElement.style.fontWeight = '800';
+        }
+
+        // Stop at 0
+        if (timeLeft <= 0) {
+            clearInterval(countdownInterval);
+            timerElement.textContent = '⚠️ OFFER EXPIRED - Contact support to see if we can still honor this price';
+            timerElement.style.color = '#DC2626';
+        }
+    }, 1000);
+
+    // Store interval ID so we can clear it if needed
+    state.countdownInterval = countdownInterval;
 }
 
 // ============================================

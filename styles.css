@@ -510,7 +510,10 @@ body {
 .urgency-text {
     font-size: 16px;
     color: var(--danger-color);
-    font-weight: 600;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
 }
 
 /* CTA Section */
@@ -622,6 +625,17 @@ body {
 @keyframes spin {
     to {
         transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
     }
 }
 
