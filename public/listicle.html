@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Loading...</title>
+    <meta name="description" id="page-description" content="">
+    <link rel="stylesheet" href="/listicle-style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 id="listicle-title">Loading...</h1>
+            <p id="listicle-description"></p>
+        </header>
+
+        <main class="listicle-container" id="listicle-items">
+            <div class="loading-state">
+                <div class="spinner"></div>
+                <p>Loading amazing content...</p>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Powered by Listicle Optimizer</p>
+        </footer>
+    </div>
+
+    <script>
+        // Get slug from URL
+        const pathParts = window.location.pathname.split('/');
+        const slug = pathParts[pathParts.length - 1] || pathParts[pathParts.length - 2];
+
+        let sessionId = null;
+        let listicleData = null;
+
+        // Load listicle
+        async function loadListicle() {
+            try {
+                const response = await fetch(`/api/listicle/${slug}`);
+                if (!response.ok) {
+                    throw new Error('Listicle not found');
+                }
+
+                const data = await response.json();
+                listicleData = data.listicle;
+                sessionId = data.sessionId;
+
+                // Update meta
+                document.getElementById('page-title').textContent = listicleData.meta_title || listicleData.title;
+                document.getElementById('page-description').content = listicleData.meta_description || listicleData.description;
+
+                // Update header
+                document.getElementById('listicle-title').textContent = listicleData.title;
+                document.getElementById('listicle-description').textContent = listicleData.description || '';
+
+                // Render items
+                renderItems(data.items);
+
+            } catch (error) {
+                console.error('Error loading listicle:', error);
+                document.getElementById('listicle-items').innerHTML = `
+                    <div class="error-state">
+                        <h2>Oops! Listicle not found</h2>
+                        <p>The listicle you're looking for doesn't exist or has been removed.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderItems(items) {
+            const container = document.getElementById('listicle-items');
+
+            container.innerHTML = items.map((item, index) => `
+                <article class="listicle-item" data-item-id="${item.id}" data-position="${index + 1}">
+                    ${item.badge ? `<div class="item-badge">${item.badge}</div>` : ''}
+
+                    <div class="item-number">#${index + 1}</div>
+
+                    <div class="item-image-container">
+                        <img
+                            src="${item.thumbnail_url}"
+                            alt="${item.thumbnail_alt || item.title}"
+                            class="item-image"
+                            data-thumbnail-id="${item.thumbnail_id}"
+                            loading="lazy"
+                        >
+                    </div>
+
+                    <div class="item-content">
+                        <h2 class="item-title">${item.title}</h2>
+
+                        ${item.rating ? `
+                            <div class="item-rating">
+                                ${generateStars(item.rating)}
+                                <span class="rating-number">${item.rating}/5</span>
+                            </div>
+                        ` : ''}
+
+                        ${item.description ? `
+                            <p class="item-description">${item.description}</p>
+                        ` : ''}
+
+                        <div class="item-footer">
+                            ${item.price ? `<span class="item-price">${item.price}</span>` : ''}
+                            <button
+                                class="cta-button"
+                                data-item-id="${item.id}"
+                                data-thumbnail-id="${item.thumbnail_id}"
+                                data-position="${index + 1}"
+                            >
+                                ${item.cta_text || 'Learn More'} →
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+
+            // Track impressions
+            trackImpressions(items);
+
+            // Attach click handlers
+            attachClickHandlers();
+
+            // Observe when items come into view
+            observeItems();
+        }
+
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            let stars = '';
+
+            for (let i = 0; i < 5; i++) {
+                if (i < fullStars) {
+                    stars += '★';
+                } else if (i === fullStars && hasHalfStar) {
+                    stars += '⯨';
+                } else {
+                    stars += '☆';
+                }
+            }
+
+            return `<span class="stars">${stars}</span>`;
+        }
+
+        // Track impressions
+        async function trackImpressions(items) {
+            for (const [index, item] of items.entries()) {
+                try {
+                    await fetch('/api/track/impression', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            listicle_id: listicleData.id,
+                            item_id: item.id,
+                            thumbnail_id: item.thumbnail_id,
+                            position: index + 1
+                        })
+                    });
+                } catch (error) {
+                    console.error('Error tracking impression:', error);
+                }
+            }
+        }
+
+        // Attach click handlers
+        function attachClickHandlers() {
+            const buttons = document.querySelectorAll('.cta-button');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', async (e) => {
+                    const itemId = parseInt(button.dataset.itemId);
+                    const thumbnailId = parseInt(button.dataset.thumbnailId);
+                    const position = parseInt(button.dataset.position);
+
+                    try {
+                        // Track click
+                        const response = await fetch('/api/track/click', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                listicle_id: listicleData.id,
+                                item_id: itemId,
+                                thumbnail_id: thumbnailId,
+                                position: position
+                            })
+                        });
+
+                        const data = await response.json();
+
+                        // Redirect to offer
+                        if (data.redirectUrl) {
+                            window.open(data.redirectUrl, '_blank');
+                        }
+
+                    } catch (error) {
+                        console.error('Error tracking click:', error);
+                    }
+                });
+            });
+
+            // Track image clicks too
+            const images = document.querySelectorAll('.item-image');
+            images.forEach(img => {
+                img.style.cursor = 'pointer';
+                img.addEventListener('click', () => {
+                    const article = img.closest('.listicle-item');
+                    const button = article.querySelector('.cta-button');
+                    button.click();
+                });
+            });
+        }
+
+        // Intersection Observer for lazy loading and view tracking
+        function observeItems() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.2
+            });
+
+            const items = document.querySelectorAll('.listicle-item');
+            items.forEach(item => observer.observe(item));
+        }
+
+        // Initialize
+        loadListicle();
+    </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - Listicle Optimizer</title>
+    <link rel="stylesheet" href="analytics-style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>📊 Analytics</h1>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="/admin" class="nav-item">
+                    <span class="icon">←</span>
+                    <span>Back to Admin</span>
+                </a>
+            </nav>
+
+            <div class="listicle-info" id="listicle-info">
+                <h3>Listicle</h3>
+                <p id="listicle-name">Loading...</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <h2>Performance Dashboard</h2>
+                <div class="time-filters">
+                    <button class="filter-btn active" data-period="all_time">All Time</button>
+                    <button class="filter-btn" data-period="last_30d">Last 30 Days</button>
+                    <button class="filter-btn" data-period="last_7d">Last 7 Days</button>
+                    <button class="filter-btn" data-period="last_24h">Last 24 Hours</button>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Key Metrics -->
+                <section class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">👥</div>
+                        <div class="metric-content">
+                            <div class="metric-label">Total Visitors</div>
+                            <div class="metric-value" id="total-visitors">-</div>
+                            <div class="metric-change positive" id="visitors-change"></div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">🖱️</div>
+                        <div class="metric-content">
+                            <div class="metric-label">Total Clicks</div>
+                            <div class="metric-value" id="total-clicks">-</div>
+                            <div class="metric-change" id="clicks-change"></div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">📊</div>
+                        <div class="metric-content">
+                            <div class="metric-label">CTR</div>
+                            <div class="metric-value" id="ctr">-</div>
+                            <div class="metric-subtitle">Click-Through Rate</div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">💰</div>
+                        <div class="metric-content">
+                            <div class="metric-label">Revenue</div>
+                            <div class="metric-value" id="total-revenue">$0</div>
+                            <div class="metric-subtitle" id="revenue-per-click"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Charts Section -->
+                <section class="charts-section">
+                    <div class="chart-card">
+                        <h3>Clicks Over Time</h3>
+                        <div class="chart-container" id="clicks-chart">
+                            <div class="simple-chart"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Device Breakdown</h3>
+                        <div class="device-stats" id="device-stats"></div>
+                    </div>
+                </section>
+
+                <!-- Top Performing Items -->
+                <section class="table-section">
+                    <h3>Top Performing Items</h3>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Position</th>
+                                    <th>Item</th>
+                                    <th>Clicks</th>
+                                    <th>Impressions</th>
+                                    <th>CTR</th>
+                                    <th>Revenue</th>
+                                </tr>
+                            </thead>
+                            <tbody id="top-items-body">
+                                <tr>
+                                    <td colspan="6" class="loading-cell">Loading data...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Thumbnail Performance -->
+                <section class="thumbnail-section">
+                    <h3>Thumbnail A/B Test Results</h3>
+                    <p class="section-description">See which thumbnail variants are performing best</p>
+
+                    <div id="thumbnail-tests">
+                        <div class="loading-cell">Loading thumbnail data...</div>
+                    </div>
+                </section>
+
+                <!-- Position Analytics -->
+                <section class="position-section">
+                    <h3>Position Performance</h3>
+                    <p class="section-description">How each position in your listicle performs</p>
+
+                    <div class="position-chart" id="position-chart">
+                        <div class="loading-cell">Loading position data...</div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="analytics-script.js"></script>
+</body>
+</html>

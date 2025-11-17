@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listicle Optimizer - Admin Dashboard</title>
+    <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>📊 Listicle Pro</h1>
+                <p class="version">v1.0</p>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-view="listicles">
+                    <span class="icon">📝</span>
+                    <span>Listicles</span>
+                </a>
+                <a href="#" class="nav-item" data-view="create">
+                    <span class="icon">➕</span>
+                    <span>Create New</span>
+                </a>
+                <a href="../analytics" class="nav-item">
+                    <span class="icon">📈</span>
+                    <span>Analytics</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <p>Made with ❤️ for Affiliates</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <h2 id="page-title">My Listicles</h2>
+                <div class="actions">
+                    <button class="btn btn-primary" id="create-new-btn">
+                        <span>➕</span> Create Listicle
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Listicles View -->
+                <div id="listicles-view" class="view active">
+                    <div class="search-bar">
+                        <input type="text" id="search-input" placeholder="Search listicles...">
+                    </div>
+
+                    <div class="listicles-grid" id="listicles-grid">
+                        <!-- Listicles will be loaded here -->
+                        <div class="loading">Loading listicles...</div>
+                    </div>
+                </div>
+
+                <!-- Create/Edit View -->
+                <div id="create-view" class="view">
+                    <div class="form-container">
+                        <h3 id="form-title">Create New Listicle</h3>
+
+                        <form id="listicle-form">
+                            <input type="hidden" id="listicle-id">
+
+                            <div class="form-group">
+                                <label for="title">Title *</label>
+                                <input type="text" id="title" required placeholder="e.g., Top 10 Productivity Tools 2024">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="slug">URL Slug *</label>
+                                <input type="text" id="slug" required placeholder="e.g., top-10-productivity-tools-2024">
+                                <small>Will be available at: /listicle/your-slug</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea id="description" rows="3" placeholder="Brief description of your listicle"></textarea>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="optimization-mode">Optimization Mode</label>
+                                    <select id="optimization-mode">
+                                        <option value="ctr">CTR (Click-Through Rate)</option>
+                                        <option value="revenue">Revenue</option>
+                                        <option value="hybrid">Hybrid (CTR + Revenue)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="auto-reorder">Auto-Reorder Items</label>
+                                    <select id="auto-reorder">
+                                        <option value="1">Enabled</option>
+                                        <option value="0">Disabled</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="meta-title">Meta Title (SEO)</label>
+                                <input type="text" id="meta-title" placeholder="Title for search engines">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="meta-description">Meta Description (SEO)</label>
+                                <textarea id="meta-description" rows="2" placeholder="Description for search engines"></textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Listicle</button>
+                            </div>
+                        </form>
+
+                        <!-- Items Section (shown after listicle is created) -->
+                        <div id="items-section" style="display: none;">
+                            <hr style="margin: 40px 0;">
+                            <h3>Listicle Items</h3>
+
+                            <div id="items-list"></div>
+
+                            <button type="button" class="btn btn-primary" id="add-item-btn">
+                                ➕ Add Item
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Item Modal -->
+    <div id="item-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="item-modal-title">Add Item</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+
+            <form id="item-form">
+                <input type="hidden" id="item-id">
+                <input type="hidden" id="item-listicle-id">
+
+                <div class="form-group">
+                    <label for="item-title">Title *</label>
+                    <input type="text" id="item-title" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="item-description">Description</label>
+                    <textarea id="item-description" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="item-url">Offer URL *</label>
+                    <input type="url" id="item-url" required placeholder="https://example.com/offer">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="item-price">Price</label>
+                        <input type="text" id="item-price" placeholder="e.g., $99/mo">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="item-rating">Rating</label>
+                        <input type="number" id="item-rating" step="0.1" min="0" max="5" placeholder="4.5">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="item-badge">Badge</label>
+                        <input type="text" id="item-badge" placeholder="e.g., Editor's Choice">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="item-cta">CTA Text</label>
+                        <input type="text" id="item-cta" placeholder="Learn More">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Thumbnail Variants</label>
+                    <div id="thumbnails-container">
+                        <!-- Thumbnails will be added here -->
+                    </div>
+                    <button type="button" class="btn btn-sm btn-secondary" id="add-thumbnail-btn">
+                        ➕ Add Thumbnail Variant
+                    </button>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>
