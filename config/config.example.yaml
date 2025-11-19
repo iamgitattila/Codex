@@ -1,0 +1,187 @@
+# Homeowner.wiki pSEO Engine Configuration
+# Copy this file to config.yaml and fill in your values
+
+# API Keys for Data Sources
+api_keys:
+  # OpenAI for LLM-based extraction and content generation
+  openai_api_key: "sk-..."
+  openai_model: "gpt-4-turbo-preview"  # or "gpt-4" or "gpt-3.5-turbo"
+
+  # Anthropic Claude (alternative to OpenAI)
+  anthropic_api_key: ""
+  anthropic_model: "claude-3-opus-20240229"
+
+  # US Census Bureau API
+  census_api_key: ""  # Get free key at: https://api.census.gov/data/key_signup.html
+
+  # NOAA Climate Data Online
+  noaa_api_key: ""  # Get free key at: https://www.ncdc.noaa.gov/cdo-web/token
+
+  # Bureau of Labor Statistics (no key required for public API)
+  bls_api_key: ""  # Optional: get key for higher rate limits
+
+  # Google Search (for finding municipal websites)
+  google_search_api_key: ""
+  google_search_cx: ""  # Custom Search Engine ID
+
+# Database Configuration
+database:
+  type: "postgresql"  # postgresql, sqlite, supabase
+  host: "localhost"
+  port: 5432
+  name: "homeowner_pseo"
+  user: "postgres"
+  password: ""
+
+  # Supabase (alternative to self-hosted PostgreSQL)
+  supabase_url: ""
+  supabase_key: ""
+
+# Caching
+cache:
+  enabled: true
+  directory: "data/cache"
+  ttl:
+    census_acs: 2592000  # 30 days
+    noaa_climate: 86400  # 1 day
+    bls_oews: 604800  # 7 days
+    fhfa_hpi: 7776000  # 90 days
+    municipal_data: 2592000  # 30 days
+
+# Data Collection Settings
+data_collection:
+  # Federal data sources
+  federal:
+    enabled: true
+    schedule: "0 2 * * 0"  # Sunday 2 AM
+
+  # Municipal data scraping
+  municipal:
+    enabled: true
+    schedule: "0 3 * * 5"  # Friday 3 AM
+    max_cities_per_run: 50
+    respect_robots_txt: true
+    user_agent: "Homeowner.wiki Data Collector (contact@homeowner.wiki)"
+
+  # PDF parsing
+  pdf:
+    ocr_enabled: true
+    ocr_language: "eng"
+    max_file_size_mb: 50
+
+# Page Generation
+page_generation:
+  enabled: true
+  schedule: "0 6 * * *"  # Daily 6 AM
+  batch_size: 100
+  regenerate_stale_days: 90
+
+  # Content settings
+  content:
+    min_word_count: 800
+    max_word_count: 3000
+    include_faq: true
+    include_schema_markup: true
+    include_calculators: true
+
+  # LLM settings for generation
+  llm:
+    temperature: 0.7
+    max_tokens: 3000
+    top_p: 0.9
+
+# Monetization
+monetization:
+  # Affiliate programs
+  affiliates:
+    home_depot:
+      enabled: true
+      partner_id: ""
+      commission_rate: 0.03
+    lowes:
+      enabled: true
+      partner_id: ""
+      commission_rate: 0.02
+    amazon_associates:
+      enabled: true
+      partner_id: ""
+      commission_rate: 0.04
+
+  # Lead generation
+  lead_gen:
+    angi:
+      enabled: true
+      partner_id: ""
+      cost_per_lead: 45
+    thumbtack:
+      enabled: true
+      partner_id: ""
+      cost_per_lead: 35
+    homeadvisor:
+      enabled: true
+      partner_id: ""
+      cost_per_lead: 50
+
+# Frontend/Site Settings
+site:
+  url: "https://homeowner.wiki"
+  api_url: "http://localhost:8000"
+  api_token: ""
+
+  # Next.js settings
+  nextjs:
+    revalidate: 3600  # ISR revalidation in seconds
+
+# Analytics
+analytics:
+  enabled: true
+  google_analytics_id: ""
+  track_conversions: true
+
+  # Custom event tracking
+  events:
+    calculator_usage: true
+    affiliate_clicks: true
+    lead_submissions: true
+
+# Rate Limiting
+rate_limits:
+  census_api:
+    requests_per_minute: 50
+  noaa_api:
+    requests_per_minute: 30
+  openai_api:
+    requests_per_minute: 60
+  web_scraping:
+    requests_per_second: 1
+    concurrent_requests: 3
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  file: "logs/pseo_engine.log"
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+
+  # Alerts
+  alerts:
+    enabled: true
+    email:
+      enabled: false
+      smtp_host: ""
+      smtp_port: 587
+      from: ""
+      to: []
+    slack:
+      enabled: false
+      webhook_url: ""
+
+# Feature Flags
+features:
+  ai_suggestions: true
+  auto_data_source_discovery: true
+  interactive_calculators: true
+  maintenance_calendars: true
+  cost_estimators: true
+  permit_guides: true
+  zoning_guides: true

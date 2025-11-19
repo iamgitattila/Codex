@@ -1,0 +1,443 @@
+# Data Source Definitions
+# This file defines all available data sources, their attributes, and how to access them
+
+federal_sources:
+  census_acs:
+    name: "US Census Bureau - American Community Survey"
+    description: "5-year estimates for housing and demographic data"
+    url: "https://api.census.gov/data"
+    api_required: true
+    frequency: "annual"
+    geography_levels:
+      - "zip_code_tabulation_area"
+      - "county"
+      - "state"
+      - "metro_area"
+
+    # ACS Tables we collect
+    tables:
+      B25034:
+        name: "Year Structure Built"
+        variables:
+          - B25034_001E  # Total housing units
+          - B25034_002E  # Built 2020 or later
+          - B25034_010E  # Built 1940 to 1949
+          - B25034_011E  # Built 1939 or earlier
+        use_cases:
+          - "Average home age by city"
+          - "Historic home maintenance guides"
+
+      B25040:
+        name: "House Heating Fuel"
+        variables:
+          - B25040_001E  # Total
+          - B25040_002E  # Utility gas
+          - B25040_003E  # Bottled, tank, or LP gas
+          - B25040_004E  # Electricity
+          - B25040_005E  # Fuel oil
+          - B25040_006E  # Coal or coke
+          - B25040_007E  # Wood
+          - B25040_008E  # Solar
+          - B25040_009E  # Other fuel
+          - B25040_010E  # No fuel used
+        use_cases:
+          - "Energy efficiency guides"
+          - "HVAC replacement costs"
+
+      B25003:
+        name: "Housing Tenure (Owner/Renter)"
+        variables:
+          - B25003_001E  # Total
+          - B25003_002E  # Owner occupied
+          - B25003_003E  # Renter occupied
+        use_cases:
+          - "Homeownership rates"
+          - "Target homeowner-heavy cities"
+
+      B19013:
+        name: "Median Household Income"
+        variables:
+          - B19013_001E  # Median household income
+        use_cases:
+          - "Affordability context"
+          - "Renovation budget guides"
+
+      B25088:
+        name: "Median Home Value"
+        variables:
+          - B25088_001E  # Median home value
+        use_cases:
+          - "Home value context"
+          - "ROI calculations"
+
+      B25091:
+        name: "Mortgage Status and Monthly Owner Costs"
+        variables:
+          - B25091_001E  # Total
+          - B25091_002E  # With mortgage
+          - B25091_014E  # Without mortgage
+        use_cases:
+          - "Mortgage calculators"
+          - "Refinance guides"
+
+  noaa_climate:
+    name: "NOAA Climate Data Online"
+    description: "30-year climate normals and historical weather data"
+    url: "https://www.ncei.noaa.gov/cdo-web/api/v2"
+    api_required: true
+    frequency: "real_time"
+    geography_levels:
+      - "city"
+      - "county"
+      - "zip_code"
+
+    data_types:
+      PRCP:
+        name: "Precipitation"
+        unit: "inches"
+        use_cases:
+          - "Drainage recommendations"
+          - "Rain gutter sizing"
+      TMAX:
+        name: "Maximum Temperature"
+        unit: "fahrenheit"
+        use_cases:
+          - "AC sizing"
+          - "Paint timing"
+      TMIN:
+        name: "Minimum Temperature"
+        unit: "fahrenheit"
+        use_cases:
+          - "Freeze protection"
+          - "Winterization guides"
+      SNOW:
+        name: "Snowfall"
+        unit: "inches"
+        use_cases:
+          - "Snow removal equipment"
+          - "Roof load considerations"
+      DX90:
+        name: "Number of days with max temp >= 90°F"
+        use_cases:
+          - "Heat stress on materials"
+          - "AC maintenance frequency"
+      DX32:
+        name: "Number of days with max temp <= 32°F"
+        use_cases:
+          - "Freeze risk"
+          - "Pipe insulation recommendations"
+
+    normals:
+      - "NORMAL_MLY"  # Monthly normals
+      - "NORMAL_ANN"  # Annual normals
+      - "NORMAL_DLY"  # Daily normals
+
+  bls_oews:
+    name: "Bureau of Labor Statistics - Occupational Employment & Wage Statistics"
+    description: "Labor costs by occupation and geographic area"
+    url: "https://api.bls.gov/publicAPI/v2/timeseries/data"
+    api_required: false
+    frequency: "annual"
+    geography_levels:
+      - "national"
+      - "state"
+      - "metropolitan_statistical_area"
+
+    occupations:
+      "47-2061":
+        name: "Construction Laborers"
+        use_cases:
+          - "General labor cost estimates"
+      "47-2152":
+        name: "Plumbers, Pipefitters, and Steamfitters"
+        use_cases:
+          - "Plumbing repair costs"
+          - "Water heater installation"
+      "47-2181":
+        name: "Roofers"
+        use_cases:
+          - "Roof replacement costs"
+          - "Roof repair estimates"
+      "47-2111":
+        name: "Electricians"
+        use_cases:
+          - "Electrical work costs"
+          - "Panel upgrade estimates"
+      "47-2031":
+        name: "Carpenters"
+        use_cases:
+          - "Deck building costs"
+          - "Framing costs"
+      "47-2051":
+        name: "Cement Masons and Concrete Finishers"
+        use_cases:
+          - "Driveway costs"
+          - "Foundation repair"
+      "47-2141":
+        name: "Painters, Construction and Maintenance"
+        use_cases:
+          - "Interior/exterior painting costs"
+      "47-2211":
+        name: "Sheet Metal Workers"
+        use_cases:
+          - "HVAC ductwork costs"
+          - "Gutter installation"
+
+  fhfa_hpi:
+    name: "Federal Housing Finance Agency - House Price Index"
+    description: "Quarterly house price index by geography"
+    url: "https://www.fhfa.gov/DataTools/Downloads"
+    api_required: false
+    frequency: "quarterly"
+    geography_levels:
+      - "national"
+      - "state"
+      - "metro_area"
+      - "county"
+      - "zip_code"
+
+    data_files:
+      - name: "HPI at ZIP Code"
+        file: "HPI_AT_ZIP.csv"
+        use_cases:
+          - "Home value appreciation"
+          - "Investment potential"
+      - name: "HPI at Metro"
+        file: "HPI_AT_METRO.csv"
+        use_cases:
+          - "Market trends"
+      - name: "HPI at State"
+        file: "HPI_AT_STATE.csv"
+        use_cases:
+          - "State comparisons"
+
+    update_schedule: "Last Tuesday of each quarter"
+
+  usda_hardiness:
+    name: "USDA Plant Hardiness Zones"
+    description: "Growing zones based on average annual minimum winter temperature"
+    url: "https://planthardiness.ars.usda.gov"
+    api_required: false
+    frequency: "static"
+    geography_levels:
+      - "zip_code"
+      - "coordinates"
+
+    zones:
+      1: "Below -50°F"
+      2: "-50°F to -40°F"
+      3: "-40°F to -30°F"
+      4: "-30°F to -20°F"
+      5: "-20°F to -10°F"
+      6: "-10°F to 0°F"
+      7: "0°F to 10°F"
+      8: "10°F to 20°F"
+      9: "20°F to 30°F"
+      10: "30°F to 40°F"
+      11: "40°F to 50°F"
+      12: "50°F to 60°F"
+      13: "Above 60°F"
+
+    use_cases:
+      - "Landscaping guides"
+      - "Frost dates"
+      - "Plant selection"
+
+municipal_sources:
+  zoning_ordinances:
+    description: "Local zoning regulations: height limits, setbacks, lot coverage"
+    common_locations:
+      - "/zoning"
+      - "/planning"
+      - "/development-services"
+      - "/building"
+    document_types:
+      - "PDF"
+      - "HTML"
+      - "Ordinance databases"
+
+    extract_fields:
+      - residential_max_height
+      - setback_front
+      - setback_side
+      - setback_rear
+      - lot_coverage_max
+      - fence_height_limit
+      - adu_permitted
+      - minimum_lot_size
+      - floor_area_ratio
+
+    use_cases:
+      - "Can I build an ADU?"
+      - "Fence height limits"
+      - "Setback requirements"
+
+  permit_requirements:
+    description: "Building permit requirements, costs, exemptions"
+    common_locations:
+      - "/permits"
+      - "/building-permits"
+      - "/development-services/permits"
+    document_types:
+      - "PDF"
+      - "HTML tables"
+      - "Permit portals"
+
+    permit_types:
+      - fence
+      - deck
+      - shed
+      - roof
+      - water_heater
+      - hvac
+      - electrical
+      - plumbing
+      - addition
+      - remodel
+      - solar
+      - pool
+
+    extract_fields:
+      - required
+      - exemption_criteria
+      - cost
+      - processing_time_days
+      - inspection_required
+      - contractor_required
+
+    use_cases:
+      - "Do I need a permit?"
+      - "Permit costs"
+      - "Application process"
+
+  trash_schedules:
+    description: "Trash and recycling pickup schedules"
+    common_locations:
+      - "/sanitation"
+      - "/solid-waste"
+      - "/trash-pickup"
+      - "/recycling"
+    document_types:
+      - "PDF calendars"
+      - "HTML tables"
+      - "Interactive maps"
+
+    extract_fields:
+      - pickup_days
+      - zones
+      - recycling_schedule
+      - bulk_item_pickup
+      - holiday_adjustments
+      - bin_placement_rules
+
+    use_cases:
+      - "When is trash day?"
+      - "Recycling schedule"
+      - "Bulk item pickup"
+
+  property_taxes:
+    description: "Property tax rates, assessment info, payment deadlines"
+    common_locations:
+      - "/tax-assessor"
+      - "/property-tax"
+      - "/appraisal-district"
+    document_types:
+      - "PDF guides"
+      - "HTML pages"
+      - "Tax databases"
+
+    extract_fields:
+      - tax_rate
+      - assessment_notice_date
+      - protest_deadline
+      - tax_due_date
+      - payment_options
+      - late_penalty
+      - exemptions_available
+
+    use_cases:
+      - "Property tax deadlines"
+      - "How to protest assessment"
+      - "Tax payment options"
+
+  utility_services:
+    description: "Water, electric, gas providers and restrictions"
+    common_locations:
+      - "/utilities"
+      - "/water"
+      - "/electric"
+    document_types:
+      - "HTML"
+      - "PDF"
+
+    extract_fields:
+      - water_restrictions
+      - watering_schedule
+      - utility_providers
+      - rate_schedules
+      - outage_info
+
+    use_cases:
+      - "Watering restrictions"
+      - "Utility providers"
+      - "Rate information"
+
+# Optional/Premium Data Sources
+optional_sources:
+  shovels_ai:
+    name: "Shovels.ai Permit Database"
+    description: "Historical permit data and contractor information"
+    url: "https://api.shovels.ai"
+    cost: "$200-500/month"
+    api_required: true
+
+    data_points:
+      - permit_type
+      - issue_date
+      - contractor_name
+      - contractor_license
+      - estimated_cost
+      - completion_status
+      - address
+
+    use_cases:
+      - "Permit history by address"
+      - "Contractor directories"
+      - "Market activity tracking"
+
+    expected_impact:
+      new_pages: 10000
+      page_types:
+        - "Permit history for [Address]"
+        - "Contractors in [ZIP]"
+        - "Recent permits in [City]"
+
+  attom_data:
+    name: "ATTOM Property Data"
+    description: "Detailed property records and valuations"
+    url: "https://api.gateway.attomdata.com"
+    cost: "$500+/month"
+    api_required: true
+
+    data_points:
+      - parcel_number
+      - lot_size
+      - year_built
+      - bedrooms
+      - bathrooms
+      - square_footage
+      - sale_history
+      - assessed_value
+
+    use_cases:
+      - "Property-specific guides"
+      - "Accurate home valuations"
+      - "Investment analysis"
+
+  zillow_api:
+    name: "Zillow API"
+    description: "Zestimate valuations and market data"
+    url: "https://www.zillow.com/howto/api/"
+    cost: "Deprecated (use ATTOM or Redfin)"
+    api_required: true
+    status: "deprecated"
