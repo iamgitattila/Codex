@@ -1,0 +1,123 @@
+# PrepperCodex pSEO Engine Configuration
+# Copy this to config.yaml and fill in your credentials
+
+# API Keys
+openai:
+  api_key: "your-openai-api-key-here"
+  model: "gpt-4"
+  temperature: 0.6
+  max_tokens: 2000
+
+# Data Source API Keys
+data_sources:
+  noaa:
+    api_key: "your-noaa-api-key"
+    base_url: "https://www.ncei.noaa.gov/cdo-web/api/v2"
+
+  census:
+    api_key: "your-census-api-key"
+    base_url: "https://api.census.gov/data"
+
+  nrel:
+    api_key: "your-nrel-api-key"
+    base_url: "https://developer.nrel.gov/api"
+
+  fema:
+    # No API key needed - public datasets
+    base_url: "https://hazards.fema.gov/nri/api"
+
+  usgs:
+    # No API key needed
+    base_url: "https://earthquake.usgs.gov/fdsnws/event/1"
+
+  epa:
+    # No API key needed
+    base_url: "https://watersgeo.epa.gov/arcgis/rest/services"
+
+# WordPress Integration
+wordpress:
+  site_url: "https://preppercodex.com"
+  api_token: "your-wordpress-jwt-token"
+  username: "admin"
+  application_password: "your-application-password"
+
+# Database (SQLite for simplicity, can upgrade to PostgreSQL)
+database:
+  type: "sqlite"
+  path: "data/preppercodex.db"
+
+# Scheduling
+schedule:
+  data_collection:
+    enabled: true
+    cron: "0 2 * * 0"  # Weekly at 2 AM Sunday
+    timezone: "America/New_York"
+
+  page_generation:
+    enabled: true
+    cron: "0 6 * * *"  # Daily at 6 AM
+    batch_size: 100  # Pages per run
+    timezone: "America/New_York"
+
+  analytics_review:
+    enabled: true
+    cron: "0 8 * * 5"  # Friday at 8 AM
+    timezone: "America/New_York"
+
+# Affiliate Programs
+affiliates:
+  amazon:
+    tracking_id: "preppercx-20"
+    api_key: "your-amazon-pa-api-key"
+
+  harvest_right:
+    affiliate_code: "PREPPERCX"
+    commission_rate: 0.05
+
+  mira_safety:
+    affiliate_code: "PREPPERCX"
+    commission_rate: 0.10
+
+# Notification Settings
+notifications:
+  email:
+    enabled: true
+    smtp_host: "smtp.gmail.com"
+    smtp_port: 587
+    username: "your-email@gmail.com"
+    password: "your-app-password"
+    from_address: "engine@preppercodex.com"
+    admin_email: "admin@preppercodex.com"
+
+  slack:
+    enabled: false
+    webhook_url: "your-slack-webhook-url"
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  file: "logs/preppercodex-engine.log"
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+
+# Content Generation Settings
+content:
+  min_word_count: 800
+  max_word_count: 2500
+  include_schema_markup: true
+  include_calculators: true
+  include_maps: true
+  include_affiliate_links: true
+
+# Rate Limiting
+rate_limits:
+  openai_rpm: 60  # Requests per minute
+  wordpress_rpm: 30
+  data_api_rpm: 100
+
+# Feature Flags
+features:
+  auto_publish: true  # Set false for manual review
+  learning_mode: true  # Analyze and improve content
+  alert_on_errors: true
+  alert_on_new_sources: true
