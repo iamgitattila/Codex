@@ -1,0 +1,103 @@
+import { appSchema, tableSchema } from '@nozbe/watermelondb';
+
+export const schema = appSchema({
+  version: 1,
+  tables: [
+    tableSchema({
+      name: 'assets',
+      columns: [
+        { name: 'name', type: 'string' },
+        { name: 'category', type: 'string' },
+        { name: 'subcategory', type: 'string', isOptional: true },
+        { name: 'description', type: 'string', isOptional: true },
+        { name: 'quantity_owned', type: 'number' },
+        { name: 'quantity_par', type: 'number', isOptional: true },
+        { name: 'unit_type', type: 'string' },
+        { name: 'location_id', type: 'string', isIndexed: true },
+        { name: 'expiration_date', type: 'number', isOptional: true },
+        { name: 'date_acquired', type: 'number', isOptional: true },
+        { name: 'last_verified', type: 'number', isOptional: true },
+        { name: 'cost_usd', type: 'number', isOptional: true },
+        { name: 'source_url', type: 'string', isOptional: true },
+        { name: 'barcode_ean', type: 'string', isOptional: true },
+        { name: 'photo_path', type: 'string', isOptional: true },
+        { name: 'notes', type: 'string', isOptional: true },
+        { name: 'condition', type: 'string', isOptional: true },
+        { name: 'rotation_status', type: 'string' },
+        { name: 'created_at', type: 'number' },
+        { name: 'updated_at', type: 'number' },
+      ],
+    }),
+    tableSchema({
+      name: 'locations',
+      columns: [
+        { name: 'name', type: 'string' },
+        { name: 'description', type: 'string', isOptional: true },
+        { name: 'location_type', type: 'string' },
+        { name: 'order', type: 'number' },
+        { name: 'created_at', type: 'number' },
+        { name: 'updated_at', type: 'number' },
+      ],
+    }),
+    tableSchema({
+      name: 'kits',
+      columns: [
+        { name: 'name', type: 'string' },
+        { name: 'description', type: 'string', isOptional: true },
+        { name: 'kit_type', type: 'string' },
+        { name: 'location_id', type: 'string', isOptional: true, isIndexed: true },
+        { name: 'created_at', type: 'number' },
+        { name: 'updated_at', type: 'number' },
+      ],
+    }),
+    tableSchema({
+      name: 'kit_items',
+      columns: [
+        { name: 'kit_id', type: 'string', isIndexed: true },
+        { name: 'asset_id', type: 'string', isIndexed: true },
+        { name: 'quantity_required', type: 'number' },
+        { name: 'is_packed', type: 'boolean' },
+        { name: 'last_verified', type: 'number', isOptional: true },
+        { name: 'created_at', type: 'number' },
+        { name: 'updated_at', type: 'number' },
+      ],
+    }),
+    tableSchema({
+      name: 'expiration_alerts',
+      columns: [
+        { name: 'asset_id', type: 'string', isIndexed: true },
+        { name: 'expiration_date', type: 'number' },
+        { name: 'days_until_expiration', type: 'number' },
+        { name: 'alert_sent', type: 'boolean' },
+        { name: 'alert_date', type: 'number', isOptional: true },
+        { name: 'action_taken', type: 'string', isOptional: true },
+        { name: 'action_date', type: 'number', isOptional: true },
+        { name: 'created_at', type: 'number' },
+        { name: 'updated_at', type: 'number' },
+      ],
+    }),
+    tableSchema({
+      name: 'shopping_list_items',
+      columns: [
+        { name: 'asset_id', type: 'string', isIndexed: true },
+        { name: 'current_quantity', type: 'number' },
+        { name: 'par_quantity', type: 'number' },
+        { name: 'quantity_to_buy', type: 'number' },
+        { name: 'priority', type: 'string' },
+        { name: 'source_url', type: 'string', isOptional: true },
+        { name: 'estimated_cost', type: 'number', isOptional: true },
+        { name: 'completed', type: 'boolean' },
+        { name: 'created_at', type: 'number' },
+        { name: 'updated_at', type: 'number' },
+      ],
+    }),
+    tableSchema({
+      name: 'user_settings',
+      columns: [
+        { name: 'setting_key', type: 'string' },
+        { name: 'setting_value', type: 'string' },
+        { name: 'updated_at', type: 'number' },
+      ],
+    }),
+  ],
+});
